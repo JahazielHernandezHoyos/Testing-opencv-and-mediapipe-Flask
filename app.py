@@ -2,6 +2,7 @@
 from flask import Flask, render_template, Response
 import cv2
 import mediapipe as mp
+from flask_cors import CORS
 
 # Creamos nuestra funcion de dibujo
 mpDibujo = mp.solutions.drawing_utils
@@ -55,7 +56,7 @@ def gen_frame():
 
         yield (b"--frame\r\n" b"Content-Type: image/jpeg\r\n\r\n" + frame + b"\r\n")
 
-
+CORS(app, resources={r"/*": {"origins": "*"}})
 # Ruta de aplicacion 'principal'
 @app.route("/")
 def index():
@@ -67,7 +68,6 @@ def index():
 def video():
     return Response(gen_frame(), mimetype="multipart/x-mixed-replace; boundary=frame")
 
-
-# Ejecutamos la app
 if __name__ == "__main__":
-    app.run(debug=False)
+    app.run(host="http://192.168.1.50/", port=5000, debug=False)
+

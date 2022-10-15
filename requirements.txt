@@ -1,2 +1,3 @@
 Flask==2.2.2
 mediapipe==0.8.11
+Flask-Cors==3.0.10
