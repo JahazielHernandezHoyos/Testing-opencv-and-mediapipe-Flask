@@ -73,6 +73,6 @@ def video():
 
 #configuarion para deploy o no deploy en render.com
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=False)
+    app.run(host="216.24.57.3", port=443, debug=False)
 
 
