@@ -15,7 +15,7 @@ MallaFacial = mpMallaFacial.FaceMesh(max_num_faces=1)
 cap = cv2.VideoCapture(0)
 
 # Creamos la app
-app =  Flask(__name__)
+app = Flask(__name__)
 
 # Mostramos el video en RT
 def gen_frame():
@@ -41,27 +41,33 @@ def gen_frame():
                 # Iteramos
                 for rostros in resultados.multi_face_landmarks:
                     # Dibujamos
-                    mpDibujo.draw_landmarks(frame, rostros, mpMallaFacial.FACEMESH_TESSELATION, ConfDibu, ConfDibu)
-
+                    mpDibujo.draw_landmarks(
+                        frame,
+                        rostros,
+                        mpMallaFacial.FACEMESH_TESSELATION,
+                        ConfDibu,
+                        ConfDibu,
+                    )
 
             # Codificamos nuestro video en Bytes
-            suc, encode = cv2.imencode('.jpg', frame)
+            suc, encode = cv2.imencode(".jpg", frame)
             frame = encode.tobytes()
 
-        yield(b'--frame\r\n'
-              b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+        yield (b"--frame\r\n" b"Content-Type: image/jpeg\r\n\r\n" + frame + b"\r\n")
 
 
 # Ruta de aplicacion 'principal'
-@app.route('/')
+@app.route("/")
 def index():
-    return render_template('index.html')
+    return render_template("index.html")
+
 
 # Ruta del video
-@app.route('/video')
+@app.route("/video")
 def video():
-    return Response(gen_frame(), mimetype='multipart/x-mixed-replace; boundary=frame')
+    return Response(gen_frame(), mimetype="multipart/x-mixed-replace; boundary=frame")
+
 
 # Ejecutamos la app
 if __name__ == "__main__":
-    app.run(debug = True)
+    app.run(debug=False)
